@@ -1,0 +1,83 @@
+<!doctype html>
+<html lang="id">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Persediaan | Bunberry Bakery</title>
+  <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+  <div class="shell">
+    <header class="topbar">
+      <div class="brand"><img class="brand-mark" src="bakery-iconn.png" alt="Logo Bunberry"><div><strong>Bunberry</strong><small>BAKERY INVENTORY</small></div></div>
+      <nav class="page-tabs" aria-label="Navigasi halaman">
+        <button class="tab active" type="button">Beranda</button>
+        <button class="tab" type="button">Ringkasan</button>
+        <button class="tab" type="button">Persediaan</button>
+        <button class="tab" type="button">Riwayat stok</button>
+        <button class="tab" type="button">Tambah bahan</button>
+        <button class="tab" type="button">Update stock</button>
+        <button class="tab" type="button">Pesanan bahan</button>
+      </nav>
+    </header>
+
+    <main class="page-stack">
+      <section class="page-panel active-page" data-page="beranda">
+        <section class="landing-hero">
+          <div class="landing-content">
+            <p class="eyebrow">Bunberry Bakery</p>
+            <h1>Freshly baked,<br><em>carefully stocked.</em></h1>
+            <p class="landing-copy">Kelola bahan baku bakery dengan lebih rapi, dari pemasok sampai pergerakan stok harian.</p>
+            <button class="landing-button" type="button" data-open-page="ringkasan">Lihat persediaan <span>→</span></button>
+          </div>
+          <div class="landing-caption"><strong>BAKED WITH CARE</strong><span>Persediaan yang siap untuk setiap batch.</span></div>
+        </section>
+      </section>
+
+      <section class="page-panel" data-page="ringkasan">
+        <section class="hero">
+          <div><p class="eyebrow">Ruang persediaan</p><h1>Bahan baku tetap<br><em>siap dipanggang.</em></h1><p class="hero-copy">Pantau stok, catat pembelian, dan kendalikan bahan produksi Bunberry dalam satu tampilan.</p></div>
+          <div class="hero-note"><span>Hari ini</span><strong id="today"></strong><small>Stok yang teratur membuat dapur bergerak ringan.</small></div>
+        </section>
+
+        <section class="metrics" aria-label="Ringkasan persediaan">
+          <article class="metric"><span class="metric-icon warm" aria-hidden="true"><svg viewBox="0 0 48 48"><path d="M9 16h30l-3 23H12L9 16Z"/><path d="M16 16a8 8 0 0 1 16 0M17 24h14M17 30h14"/><path d="M13 11h22"/></svg></span><div><small>Jenis bahan</small><strong id="total-materials">0</strong><span>terdaftar</span></div></article>
+          <article class="metric"><span class="metric-icon alert" aria-hidden="true"><svg viewBox="0 0 48 48"><path d="M11 17h26l-2 21H13l-2-21Z"/><path d="M17 17a7 7 0 0 1 14 0M24 23v7"/><circle cx="24" cy="34" r=".8"/><path d="M35 10v7m-3.5-3.5h7"/></svg></span><div><small>Perlu restock</small><strong id="low-stock">0</strong><span>stok menipis</span></div></article>
+          <article class="metric"><span class="metric-icon green" aria-hidden="true"><svg viewBox="0 0 48 48"><path d="M12 17h24l-2 22H14l-2-22Z"/><path d="M18 17a6 6 0 0 1 12 0M24 23v11"/><path d="m20 30 4 4 4-4"/><path d="M15 11h18"/></svg></span><div><small>Nilai pembelian</small><strong id="inventory-value">Rp0</strong><span>tercatat masuk</span></div></article>
+          <article class="metric"><span class="metric-icon alert" aria-hidden="true"><svg viewBox="0 0 48 48"><ellipse cx="22" cy="14" rx="10" ry="4"/><path d="M12 14v8c0 2.2 4.5 4 10 4 2.2 0 4.2-.3 5.8-.9M12 18c0 2.2 4.5 4 10 4 1.9 0 3.7-.2 5.2-.7M12 22v4c0 2.2 4.5 4 10 4 1.3 0 2.5-.1 3.6-.3"/><path d="m31 25 7 7m0-7-7 7M34.5 19v-4"/></svg></span><div><small>Total pengeluaran</small><strong id="expense-value">Rp0</strong><span>estimasi bahan keluar</span></div></article>
+        </section>
+      </section>
+
+      <section class="page-panel" data-page="persediaan">
+        <div class="panel inventory-panel"><div class="panel-heading"><div><p class="eyebrow">Daftar bahan</p><h2>Persediaan saat ini</h2></div><button class="refresh-button" id="refresh-button" title="Muat ulang data">↻</button></div><div id="materials-table" class="category-grid"><p class="empty">Memuat data...</p></div></div>
+      </section>
+
+      <section class="page-panel" data-page="riwayat-stok">
+        <div class="panel activity-panel"><div class="panel-heading"><div><p class="eyebrow">Aktivitas terakhir</p><h2>Riwayat pergerakan stok</h2></div></div><div id="activity-list" class="activity-list"><p class="empty">Belum ada transaksi.</p></div></div>
+      </section>
+
+      <section class="page-panel" data-page="tambah-bahan">
+        <div class="panel form-panel"><div class="panel-heading"><div><p class="eyebrow">Master data</p><h2>Tambah bahan</h2></div></div><form id="material-form"><label>Nama bahan<input name="name" placeholder="Contoh: Tepung terigu" required></label><div class="form-row"><label>Kategori<select name="category_id" id="material-category-select" required><option value="">Pilih kategori</option></select></label><label>Satuan<select name="unit"><option value="kg">Kilogram</option><option value="gram">Gram</option><option value="liter">Liter</option><option value="ml">Mililiter</option><option value="pcs">Pcs</option></select></label></div><div class="form-row"><label>Minimal stock<input type="number" name="minimum_stock" min="0" step="0.01" value="1" required></label><label>Stok awal<input type="number" name="initial_stock" min="0" step="0.01" value="0" required></label></div><div class="form-row"><label>Harga satuan<input type="number" name="unit_price" min="0" step="100" value="0" placeholder="Rp0" required></label><label>Pemasok<select name="supplier_id" id="supplier-select"><option value="">Belum dipilih</option><option value="new:Berry%20Shop">Berry Shop</option><option value="new:PT%20Mitra%20Pangan%20Sejahtera">PT Mitra Pangan Sejahtera</option><option value="new:PT%20Prima%20Bakery%20Supply">PT Prima Bakery Supply</option><option value="new:CV%20Prima%20Fresh%20Produce">CV Prima Fresh Produce</option><option value="new:CV%20Mitra%20Pangan%20Jaya">CV Mitra Pangan Jaya</option></select></label></div><button class="primary-button" type="submit">+ Simpan bahan</button></form></div>
+      </section>
+
+      <section class="page-panel" data-page="update-stock">
+        <div class="panel form-panel"><div class="panel-heading"><div><p class="eyebrow">Persediaan</p><h2>Update stock</h2></div></div><form id="stock-form"><label>Bahan<select name="material_id" id="material-select" required><option value="">Pilih bahan</option></select></label><div class="form-row"><label>Jenis<select name="transaction_type"><option value="IN">Bahan masuk</option><option value="OUT">Bahan keluar</option></select></label><label>Jumlah<input type="number" name="quantity" min="0.01" step="0.01" placeholder="0" required></label></div><label>Catatan<input name="notes" placeholder="Contoh: Pembelian mingguan"></label><button class="primary-button" type="submit">+ Simpan update stock</button></form></div>
+      </section>
+
+      <section class="page-panel" data-page="pesanan-bahan">
+        <div class="purchase-layout">
+          <div class="panel form-panel"><div class="panel-heading"><div><p class="eyebrow">Pengadaan</p><h2>Buat pesanan bahan</h2></div></div><form id="purchase-form"><label>Pemasok<select name="supplier_id" id="purchase-supplier-select" required><option value="">Pilih pemasok</option></select></label><label>Bahan<select name="material_id" id="purchase-material-select" required><option value="">Pilih bahan</option></select></label><div class="form-row"><label>Jumlah dipesan<input type="number" name="quantity" min="0.01" step="0.01" placeholder="0" required></label><label>Harga satuan<input type="number" name="unit_price" min="0" step="100" value="0" required></label></div><label>Tanggal pesan<input type="date" name="order_date" id="purchase-order-date" required></label><button class="primary-button" type="submit">+ Simpan pesanan</button></form></div>
+          <div class="panel inventory-panel purchase-list-panel"><div class="panel-heading"><div><p class="eyebrow">Status pengadaan</p><h2>Daftar pesanan</h2></div></div><div class="table-wrap"><table><thead><tr><th>TANGGAL</th><th>PEMASOK</th><th>BAHAN</th><th>JUMLAH</th><th>NILAI</th><th>STATUS</th><th>AKSI</th></tr></thead><tbody id="purchase-orders-table"><tr><td colspan="7" class="empty">Memuat pesanan...</td></tr></tbody></table></div></div>
+        </div>
+      </section>
+      <dialog id="edit-material-dialog" class="edit-dialog">
+        <div class="panel-heading"><div><p class="eyebrow">Master data</p><h2>Edit bahan</h2></div><button class="refresh-button" type="button" id="close-edit-material" aria-label="Tutup">×</button></div>
+        <form id="edit-material-form"><input type="hidden" name="id"><label>Nama bahan<input name="name" required></label><div class="form-row"><label>Kategori<select name="category_id" id="edit-material-category-select" required></select></label><label>Satuan<select name="unit"><option value="kg">Kilogram</option><option value="gram">Gram</option><option value="liter">Liter</option><option value="ml">Mililiter</option><option value="pcs">Pcs</option></select></label></div><div class="form-row"><label>Minimal stock<input type="number" name="minimum_stock" min="0" step="0.01" required></label><label>Pemasok<select name="supplier_id" id="edit-material-supplier-select"><option value="">Belum dipilih</option></select></label></div><div class="dialog-actions"><button class="table-action" type="button" id="cancel-edit-material">Batal</button><button class="primary-button" type="submit">Simpan perubahan</button></div></form>
+      </dialog>
+      <p id="toast" class="toast" role="status"></p>
+    </main>
+    <footer><span>Bunberry Bakery</span><span>Persediaan bahan baku · Supabase Postgres</span></footer>
+  </div>
+  <script src="app.js"></script>
+</body>
+</html>
